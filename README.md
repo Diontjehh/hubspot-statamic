@@ -1,4 +1,4 @@
-Statmic HubSpot integration
+Statamic HubSpot integration
 
 ## Installation
 
