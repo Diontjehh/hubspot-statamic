@@ -2,7 +2,7 @@
 
 namespace DionBoerrigter\Hubspot;
 
-class Hubspot 
+class Hubspot
 {
     //
 }

@@ -2,10 +2,8 @@
 
 namespace DionBoerrigter\Hubspot;
 
-use DionBoerrigter\Hubspot\Http\Controllers\HubspotController;
 use DionBoerrigter\Hubspot\Listeners\FormSubmittedListener;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Route;
 use Statamic\Events\SubmissionCreated;
 use Statamic\Facades\CP\Nav;
 use Statamic\Facades\Permission;
@@ -14,7 +12,7 @@ use Statamic\Providers\AddonServiceProvider;
 class HubspotServiceProvider extends AddonServiceProvider
 {
     protected $routes = [
-        'cp' => __DIR__ . '/../routes/cp.php',
+        'cp' => __DIR__.'/../routes/cp.php',
     ];
 
     public function boot()
@@ -25,8 +23,8 @@ class HubspotServiceProvider extends AddonServiceProvider
 
         $this->loadRoutes();
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'hubspot');
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'hubspot');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         $this->bootAddon();
     }

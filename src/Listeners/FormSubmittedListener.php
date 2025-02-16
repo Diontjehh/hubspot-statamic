@@ -3,15 +3,15 @@
 namespace DionBoerrigter\Hubspot\Listeners;
 
 use DionBoerrigter\Hubspot\Models\FormFields;
+use DionBoerrigter\Hubspot\Models\HubspotForm;
 use Exception;
+use GuzzleHttp\Exception\ClientException;
 use HubSpot\Discovery\Discovery;
+use HubSpot\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Statamic\Events\SubmissionCreated;
 use Statamic\Contracts\Forms\Submission;
-use GuzzleHttp\Exception\ClientException;
-use DionBoerrigter\Hubspot\Models\HubspotForm;
-use HubSpot\Factory;
+use Statamic\Events\SubmissionCreated;
 
 class FormSubmittedListener
 {
@@ -25,7 +25,7 @@ class FormSubmittedListener
 
         $this->hubspot = Factory::createWithAccessToken($accesstoken);
 
-        $this->portal_id = env('HUBSPOT_PORTAL_ID');   
+        $this->portal_id = env('HUBSPOT_PORTAL_ID');
     }
 
     public function handle(SubmissionCreated $event)
@@ -55,7 +55,7 @@ class FormSubmittedListener
         $formData = $submission->data()->all();
 
         foreach ($fieldMapping as $localField => $hubspotField) {
-            if (isset($formData[$localField]) && !empty($formData[$localField])) {
+            if (isset($formData[$localField]) && ! empty($formData[$localField])) {
                 $hubspotData[$hubspotField] = $formData[$localField];
             }
         }
@@ -64,11 +64,11 @@ class FormSubmittedListener
     }
 
     protected function sendHubSpotFormSubmission(HubspotForm $form, Collection $input): bool
-    {    
+    {
         $formGuid = $form->hubspot_guid;
 
         if (empty($formGuid)) {
-            throw new Exception('Form guid not found for form with handle ' . $form->handle);
+            throw new Exception('Form guid not found for form with handle '.$form->handle);
         }
 
         $fields = array_values($input
@@ -76,7 +76,7 @@ class FormSubmittedListener
                 return [
                     'objectTypeId' => '0-1',
                     'name' => $key,
-                    'value' => $value
+                    'value' => $value,
                 ];
             })
             ->toArray());
@@ -95,15 +95,17 @@ class FormSubmittedListener
             'defaultJson' => true,
             'body' => [
                 'fields' => $fields,
-                'context' => $context
-            ]
+                'context' => $context,
+            ],
         ];
 
         try {
             $response = $this->hubspot->apiRequest($request);
+
             return $response->getStatusCode() === 200;
         } catch (ClientException $e) {
             Log::error($e->getMessage());
+
             return false;
         }
     }

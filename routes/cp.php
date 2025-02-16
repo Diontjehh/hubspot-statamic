@@ -1,7 +1,7 @@
 <?php
 
-use DionBoerrigter\Hubspot\Http\Controllers\HubspotFormController;
 use DionBoerrigter\Hubspot\Http\Controllers\HubspotFieldController;
+use DionBoerrigter\Hubspot\Http\Controllers\HubspotFormController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin/hubspot')
@@ -17,6 +17,3 @@ Route::prefix('admin/hubspot')
         Route::post('/fields', [HubspotFieldController::class, 'store'])->name('fields.store');
         Route::delete('/fields/{id}', [HubspotFieldController::class, 'destroy'])->name('fields.destroy');
     });
-
-
-
