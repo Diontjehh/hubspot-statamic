@@ -12,6 +12,6 @@ class HubspotForm extends Model
         'handle',
         'title',
         'hubspot_guid',
-        'settings'
+        'settings',
     ];
 }

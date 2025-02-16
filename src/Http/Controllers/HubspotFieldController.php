@@ -3,12 +3,9 @@
 namespace DionBoerrigter\Hubspot\Http\Controllers;
 
 use DionBoerrigter\Hubspot\Models\FormFields;
-use DionBoerrigter\Hubspot\Models\HubspotForm;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Statamic\Facades\Form;
 use Statamic\Http\Controllers\CP\CpController;
 
 class HubspotFieldController extends CpController
@@ -16,7 +13,7 @@ class HubspotFieldController extends CpController
     public function index(): View
     {
         $fields = FormFields::all();
-        
+
         return view('hubspot::fields.index', compact('fields'));
     }
 
@@ -26,12 +23,12 @@ class HubspotFieldController extends CpController
             'hubspot_field' => ['required', 'string'],
             'statamic_field' => ['required', 'string'],
         ]);
-    
+
         FormFields::create([
             'hubspot_field' => $request->input('hubspot_field'),
             'statamic_field' => $request->input('statamic_field'),
         ]);
-    
+
         return redirect()
             ->route('fields.index')
             ->with('success', 'Field successfully saved!');
